@@ -1,5 +1,6 @@
 # UUID                                  	Group Name
 #
 5b2ece9b0ed617dd1c3877e6e32efa5872f7ab89	kubedge-admin
+6ff668f2934457f1d0e5e14a66fb32001a3f269b	kubedge-approvers
 global:Registered-Users                 	Registered Users
 user:kubedge-devops                     	user/kubedge-devops
