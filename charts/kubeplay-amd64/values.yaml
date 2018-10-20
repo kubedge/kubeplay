@@ -17,7 +17,7 @@
 # Declare variables to be passed into your templates.
 replicaCount: 1
 image:
-  repository: kubedge1/kubeplay-arm32v7
+  repository: kubedge1/kubeplay-amd64
   tag: 0.1.0
   pullPolicy: IfNotPresent
 service:
