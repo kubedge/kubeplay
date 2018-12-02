@@ -1,0 +1,72 @@
+<!DOCTYPE html><head><title>Websocket Server</title>
+<script>
+function htmlize(m) {
+    var line = document.createElement("div");
+    line.innerHTML = m;
+    result.appendChild(line)
+};
+
+window.addEventListener("load", function(evt) {
+    var socket;
+    var txt = document.getElementById("txt");
+    var result = document.getElementById("result");
+
+    document.getElementById("connect").onclick = function(evt) {
+        if (socket) {
+            return false;
+        }
+
+        socket = new WebSocket('ws://{{.Host}}/ws');
+
+        socket.onopen = function(e) {
+            htmlize("<p>Connected<p>");
+        }
+        socket.onmessage = function(e) {
+            htmlize("Received: " + e.data);
+        }
+        socket.onclose = function(e) {
+            htmlize("<p>Disconnected<p>");
+            socket = null;
+        }
+        socket.onerror = function(e) {
+            htmlize("Error: " + e.data);
+        }
+
+        return false;
+    };
+
+    document.getElementById("send").onclick = function(e) {
+        if (!socket) {
+            return false;
+        }
+
+        socket.send(txt.value);
+        htmlize("Sent: " + txt.value);
+
+        return false;
+    };
+
+    document.getElementById("disconnect").onclick = function(e) {
+        if (!socket) {
+            return false;
+        }
+
+        socket.close();
+
+        return false;
+    };
+
+});
+</script>
+</head>
+<body>
+<p>Page served by pod '{{.PodName}}'</p>
+<form>
+	<button id="connect">Connect</button>
+	<button id="disconnect">Disconnect</button>
+	<input id="txt" type="text" value="">
+	<button id="send">Send</button>
+</form>
+
+<div id="result"></div>
+</body></html>
