@@ -39,12 +39,17 @@ spec:
             - containerPort: {{ .Values.service.internalPort }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /liveness
               port: {{ .Values.service.internalPort }}
           readinessProbe:
             httpGet:
-              path: /
+              path: /readiness
               port: {{ .Values.service.internalPort }}
+          env:
+            - name: podname
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
           resources:
 {{ toYaml .Values.resources | indent 12 }}
     {{- if .Values.nodeSelector }}
