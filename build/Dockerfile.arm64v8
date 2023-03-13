@@ -13,7 +13,6 @@
 # limitations under the License.
 
 FROM scratch
-ADD kubeplay/ca-certificates.crt /etc/ssl/certs/
-ADD kubeplay/goserv /goserv
-EXPOSE 8080
-CMD ["/goserv"]
+ADD build/etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+ADD build/_output/arm64v8/kubeplay /usr/local/bin/kubeplay
+CMD ["/usr/local/bin/kubeplay"]
