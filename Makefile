@@ -19,7 +19,6 @@ setup:
 ifndef GOPATH
 	$(error GOPATH not defined, please define GOPATH. Run "go help gopath" to learn more about GOPATH)
 endif
-	# dep ensure
 
 clean:
 	rm -fr vendor
@@ -58,3 +57,21 @@ docker-build-arm64v8:
 	GOOS=linux GOARCH=arm64 CGO_ENABLED=0 go build -o build/_output/arm64v8/kubeplay -gcflags all=-trimpath=${GOPATH} -asmflags all=-trimpath=${GOPATH} -tags=v1 ./kubeplay/...
 	docker build . -f build/Dockerfile.arm64v8 -t ${IMG_ARM64V8}
 	docker tag ${IMG_ARM64V8} ${DHUBREPO_ARM64V8}:latest
+
+# Run against the configured Kubernetes cluster in ~/.kube/config
+install: install-dev
+
+install-dev:
+	cd charts/kubeplay && helm install kubeplay --values values.yaml --values values-dev.yaml .
+
+install-amd64:
+	cd charts/kubeplay && helm install kubeplay --values values.yaml --values values-amd64.yaml .
+
+install-arm32v7:
+	cd charts/kubeplay && helm install kubeplay --values values.yaml --values values-arm32v7.yaml .
+
+install-arm64v8:
+	cd charts/kubeplay && helm install kubeplay --values values.yaml --values values-arm64v8.yaml .
+
+purge: setup
+	helm delete kubeplay
