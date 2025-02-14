@@ -19,7 +19,7 @@ nameOverride: dev
 replicaCount: 1
 image:
   repository: kubedge1/kubeplay-dev
-  tag: 0.1.0
+  tag: v0.2.24
   pullPolicy: IfNotPresent
 service:
   name: kubeplay
